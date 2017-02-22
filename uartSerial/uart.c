@@ -17,7 +17,7 @@ SerialPort uartInit(uint8_t *ubrrL, uint8_t *ubrrH, uint8_t *ucsrA, uint8_t *ucs
 	port.ucsrB = ucsrB;
 	port.ucsrC = ucsrC;
 	port.udr = udr;
-	port.timeOut = calculateTimeOut(*ubrrL, *ubrrH);
+	port.timeOut = uartCalculateTimeOut(*ubrrL, *ubrrH);
 	return port;
 }
 
@@ -27,7 +27,7 @@ void uartStandardInit(SerialPort *port, unsigned int baud){
 	*(port->ubrrL) = ubrr;
 	*(port->ucsrB) = ((1 << RX_ENABLE) | (1 << TX_ENABLE));			 //enable TX0 and RX0
 	*(port->ucsrC) = ((1 << U_STOP_BIT) | (1 << UCSZ0) | (1 << UCSZ1)); // set 8 bit data and 2 bit stop bit
-	port->timeOut = calculateTimeOut(*(port->ubrrL), *(port->ubrrH));
+	port->timeOut = uartCalculateTimeOut(*(port->ubrrL), *(port->ubrrH));
 }
 
 void uartClose(SerialPort *port){
@@ -78,13 +78,13 @@ boolean uartTimeout(SerialPort *port){
 	return (time > 1000);
 }
 
-void flush(SerialPort *port){
+void uartFlush(SerialPort *port){
 	char dummy;
 	while (*(port->ucsrA) & (1<<RX_FLAG)) dummy = *(port->udr);
 	return;
 }
 
-unsigned long calculateTimeOut(uint8_t ubrrL, uint8_t ubrrH){
+unsigned long uartCalculateTimeOut(uint8_t ubrrL, uint8_t ubrrH){
 	unsigned int ubrr = ubrrL;
 	ubrr = ubrr | (ubrrH >> 7);
 	unsigned long baud = ((F_CPU / 16) / (ubrr + 1));

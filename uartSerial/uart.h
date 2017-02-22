@@ -139,7 +139,7 @@ void uartSendChar(SerialPort *port, const char character);
  * 
  * \return void
  */
-void flush(SerialPort *port);
+void uartFlush(SerialPort *port);
 
 /**
  * \brief 
@@ -149,4 +149,4 @@ void flush(SerialPort *port);
  * 
  * \return unsigned long
  */
-unsigned long calculateTimeOut(uint8_t ubrrL, uint8_t ubrrH);
+unsigned long uartCalculateTimeOut(uint8_t ubrrL, uint8_t ubrrH);
