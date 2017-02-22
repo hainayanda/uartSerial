@@ -93,7 +93,7 @@ void uartPrint(SerialPort *port, const char *string);
  * 
  * \return void
  */
-void uartScan(SerialPort *port, char *string, unsigned int length);
+unsigned int uartScan(SerialPort *port, char *string, unsigned int length);
 
 /**
  * \brief 

@@ -54,7 +54,7 @@ void uartPrint(SerialPort *port, const char *string){
 	}
 }
 
-void uartScan(SerialPort *port, char *str, unsigned int length){
+unsigned int uartScan(SerialPort *port, char *str, unsigned int length){
 	unsigned int i = 0, timeout = 0;
 	while (!timeout && i < length){
 		*str = uartReadChar(port);
@@ -62,6 +62,7 @@ void uartScan(SerialPort *port, char *str, unsigned int length){
 		str++;
 		i++;
 	}
+	return i;
 }
 
 boolean uartAvailable(SerialPort *port){
